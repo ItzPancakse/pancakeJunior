@@ -1,3 +1,5 @@
 # Env DO NOT UNCOMMENT UNLESS YOU WANT TO LEAK YOUR DISCORD BOT TOKEN TO THE ENTIRE INTERNET!
 .env 
 
+# Logs we dont want this
+discordia.log 

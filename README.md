@@ -15,8 +15,7 @@
 2. Make sure it works
 3. If theres no deps folder run
 ```bash
-lit install Bilal2453/discordia-interactions
-lit install GitSparTV/discordia-slash
+lit install SinisterRectus/discordia
 ```
 4. Setup .env
 5. Once complete run

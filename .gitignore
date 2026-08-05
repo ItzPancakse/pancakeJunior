@@ -3,3 +3,6 @@
 
 # Logs we dont want this
 discordia.log 
+
+# Discordia stuff we dont need
+gateway.json

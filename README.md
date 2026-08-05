@@ -1,0 +1,2 @@
+# pancakeJunior
+Discord bot

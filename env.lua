@@ -1,5 +1,7 @@
 -- env.lua
 -- loads the env file
+-- feel free to use this
+
 local env = {}
 
 local function loadEnv(path)

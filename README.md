@@ -9,9 +9,15 @@
 
 </div>
 
+### THIS BOT IS NOT MEANT TO BE RUN IN MULTIPLE SERVERS AND WAS CREATED FOR MY OWN NEEDS IN MY DISCORD SERVER!
 
 ## How to run from source
+
+**YOU NEED LINUX TO RUN THIS BOT IF YOU ARE ON WINDOWS USE WSL IF YOU ARE ON MACOS USE A VM**
+Or you could just compile LuaSQLite3 for your OS and rename the libraries
+
 1. Download [Luvit](https://luvit.io/install.html)
+If you need help downloading Luvit on Linux follow this [guide](https://gist.github.com/Bilal2453/1783fb0f979eead8ed3a079c1f9c64d4)
 2. Make sure it works
 3. If theres no deps folder run
 ```bash

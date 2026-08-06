@@ -12,7 +12,7 @@ local thresholds = {
     [5]  = { type = "timeout", seconds = WEEK },
     [7]  = { type = "kick" },
     [10] = { type = "tempban", seconds = WEEK },
-    [12] = { type = "permban" },
+    [15] = { type = "permban" },
 }
 
 local M = {}

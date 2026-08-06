@@ -61,33 +61,50 @@ loadCommands()
 
 CLIENT:on("messageCreate", function(message)
     if message.author.bot then return end
-    if message.content:sub(1, #PREFIX) ~= PREFIX then return end
 
-    local content = message.content:sub(#PREFIX + 1)
-    local args = {}
-    for word in content:gmatch("%S+") do
-        table.insert(args, word)
-    end
+    if message.content:sub(1, #PREFIX) == PREFIX then
+        local content = message.content:sub(#PREFIX + 1)
+        local args = {}
+        for word in content:gmatch("%S+") do
+            table.insert(args, word)
+        end
 
-    local commandName = table.remove(args, 1)
-    if commandName then
-        commandName = commandName:lower()
-    end
+        local commandName = table.remove(args, 1)
+        if commandName then
+            commandName = commandName:lower()
+        end
 
-    if not commandName or not commands[commandName] then
+        if not commandName or not commands[commandName] then
+            return
+        end
+
+        local who = message.author.username .. " (" .. message.author.id .. ")"
+        local where = message.guild and (message.guild.name .. " #" .. message.channel.name) or "DM"
+
+        local ok, err = pcall(commands[commandName].execute, message, args, commands, CLIENT)
+
+        if ok then
+            logger.info(who, "successfully ran !" .. commandName, "in", where)
+        else
+            logger.error(who, "failed running !" .. commandName, "in", where, "-", tostring(err))
+            message.channel:send("Something went wrong running that command.")
+        end
         return
     end
 
-    local who = message.author.username .. " (" .. message.author.id .. ")"
-    local where = message.guild and (message.guild.name .. " #" .. message.channel.name) or "DM"
-
-    local ok, err = pcall(commands[commandName].execute, message, args, commands, CLIENT)
-
-    if ok then
-        logger.info(who, "successfully ran !" .. commandName, "in", where)
-    else
-        logger.error(who, "failed running !" .. commandName, "in", where, "-", tostring(err))
-        message.channel:send("Something went wrong running that command.")
+    -- trigger detection for non-prefixed short messages
+    if #message.content < 30 then
+        local content = message.content:lower()
+        for _, cmd in pairs(commands) do
+            if cmd.triggers then
+                for _, pattern in ipairs(cmd.triggers) do
+                    if content:match(pattern) then
+                        pcall(cmd.execute, message, {})
+                        return
+                    end
+                end
+            end
+        end
     end
 end)
 

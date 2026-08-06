@@ -12,6 +12,9 @@ function M.isModOrOwner(message)
     if message.member and message.member:hasRole(env.MOD_ROLE_ID) then
         return true
     end
+    if message.member and message.member:hasRole(env.ADMIN_ROLE_ID) then
+        return true
+    end
     return false
 end
 

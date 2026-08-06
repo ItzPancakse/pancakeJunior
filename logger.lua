@@ -16,10 +16,19 @@ local function timestamp()
     return os.date("%Y-%m-%d %H:%M:%S")
 end
 
+local function ensureLogsDir()
+    if not fs.existsSync("logs") then
+        local ok, err = pcall(fs.mkdirSync, "logs", 511) -- 511 = 0777 permissions
+        if not ok then
+            print("Failed to create logs directory:", err)
+        end
+    end
+end
+
 local function writeToFile(line)
     local date = os.date("%Y-%m-%d")
     local path = "logs/" .. date .. ".log"
-    fs.mkdirSync("logs", { recursive = true })
+    ensureLogsDir()
     local ok, err = pcall(function()
         local file = fs.openSync(path, "a")
         fs.writeSync(file, -1, line .. "\n")

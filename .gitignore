@@ -9,3 +9,4 @@ gateway.json
 
 # Bot stuff
 warnings.db
+logs/

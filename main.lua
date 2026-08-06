@@ -2,6 +2,25 @@
 -- its literally the main file
 -- run luvit main.lua to run the bot
 
+local los = require("los")
+
+if los.type() ~= "linux" then
+    print("This bot requires binaries that are compiled for Linux.")
+    if los.type() == "Windows" then
+        print("You're on Windows — you can run this bot inside WSL (Windows Subsystem for Linux) instead.")
+        print("See: https://learn.microsoft.com/en-us/windows/wsl/install")
+        os.exit(1)
+    end
+    if los.type() == "OSX" then
+        print("macOS isn't supported — you'd need to recompile LuaSQLite3 for macOS, or run this inside a Linux VM.")
+        os.exit(1)
+    end
+    if los.type() == "BSD" then
+        print("BSD isn't supported - you'd need to recompile LuaSQLite3 for BSD, or run this inside a Linux VM")
+        os.exit(1)
+    end
+end
+
 local env = require("./env")
 local filesystem = require("fs")
 local discordia = require("discordia")

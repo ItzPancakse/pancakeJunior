@@ -6,3 +6,6 @@ discordia.log
 
 # Discordia stuff we dont need
 gateway.json
+
+# Bot stuff
+warnings.db

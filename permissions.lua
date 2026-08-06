@@ -15,4 +15,14 @@ function M.isModOrOwner(message)
     return false
 end
 
+function M.isAdminOrOwner(message)
+    if message.author.id == env.OWNER_ID then
+        return true
+    end
+    if message.member and message.member:hasRole(env.ADMIN_ROLE_ID) then
+        return true
+    end
+    return false
+end
+
 return M

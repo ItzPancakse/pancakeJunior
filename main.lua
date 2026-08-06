@@ -24,6 +24,9 @@ end
 local env = require("./env")
 local filesystem = require("fs")
 local discordia = require("discordia")
+local timer = require("timer")
+local warnings = require("./warnings")
+local logger = require("./logger")
 
 local CLIENT = discordia.Client()
 local PREFIX = env.PREFIX
@@ -58,7 +61,7 @@ loadCommands()
 
 CLIENT:on("messageCreate", function(message)
     if message.author.bot then return end
-    if not message.content:sub(1, #PREFIX) == PREFIX then return end
+    if message.content:sub(1, #PREFIX) ~= PREFIX then return end
 
     local content = message.content:sub(#PREFIX + 1)
     local args = {}
@@ -67,7 +70,38 @@ CLIENT:on("messageCreate", function(message)
     end
 
     local commandName = table.remove(args, 1)
-    if commandName and commands[commandName] then
-    commands[commandName].execute(message, args, commands, CLIENT)
+    if commandName then
+        commandName = commandName:lower()
     end
+
+    if not commandName or not commands[commandName] then
+        return
+    end
+
+    local who = message.author.username .. " (" .. message.author.id .. ")"
+    local where = message.guild and (message.guild.name .. " #" .. message.channel.name) or "DM"
+
+    local ok, err = pcall(commands[commandName].execute, message, args, commands, CLIENT)
+
+    if ok then
+        logger.info(who, "successfully ran !" .. commandName, "in", where)
+    else
+        logger.error(who, "failed running !" .. commandName, "in", where, "-", tostring(err))
+        message.channel:send("Something went wrong running that command.")
+    end
+end)
+
+CLIENT:on("ready", function()
+    print("Logged in as " .. CLIENT.user.username)
+
+    timer.setInterval(60000, function() -- check every 60 seconds
+        local due = warnings.getDueTempbans(os.time())
+        for _, entry in ipairs(due) do
+            local guild = CLIENT:getGuild(entry.guild_id)
+            if guild then
+                guild:unbanUser(entry.user_id, "Temp ban expired")
+            end
+            warnings.removeTempban(entry.guild_id, entry.user_id)
+        end
+    end)
 end)

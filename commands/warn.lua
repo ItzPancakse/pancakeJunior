@@ -3,6 +3,7 @@
 
 local warnings = require("../warnings")
 local permissions = require("../permissions")
+local punishments = require("../punishments")
 
 return {
     name = "warn",
@@ -25,5 +26,13 @@ return {
 
         warnings.addWarning(message.guild.id, target.id, reason, message.author.id)
         message.channel:send(target.username .. " has been warned: " .. reason)
+
+        local member = message.guild:getMember(target.id)
+        if member then
+            local result = punishments.checkAndApply(message.guild, member, target, reason)
+            if result then
+                message.channel:send(result)
+            end
+        end
     end
 }

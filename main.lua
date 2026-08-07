@@ -27,6 +27,7 @@ local discordia = require("discordia")
 local timer = require("timer")
 local warnings = require("./warnings")
 local logger = require("./logger")
+local afk = require("./afk")
 
 local CLIENT = discordia.Client()
 local PREFIX = env.PREFIX
@@ -37,6 +38,7 @@ elseif env.OWNER_ID == "put_your_user_id_here" then
     print("Please setup the bot in .env")
 else
     CLIENT:run("Bot " .. env.DISCORD_TOKEN)
+    CLIENT:setActivity(env.STATUS)
 end
 
 local commands = {}
@@ -61,6 +63,19 @@ loadCommands()
 
 CLIENT:on("messageCreate", function(message)
     if message.author.bot then return end
+
+    if afk.isAfk(message.author.id) then
+        afk.removeAfk(message.author.id)
+        message.channel:send("Bro, welcome back, " .. message.author.username .. "! I removed your AFK status.")
+    end
+
+    for user in message.mentionedUsers:iter() do
+        local status = afk.getAfk(user.id)
+        if status then
+            local minutesAgo = math.floor((os.time() - status.since) / 60)
+            message.channel:send("Bro" .. user.username .. " is AFK: " .. status.reason .. " (" .. minutesAgo .. "m ago)")
+        end
+    end
 
     if message.content:sub(1, #PREFIX) == PREFIX then
         local content = message.content:sub(#PREFIX + 1)

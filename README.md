@@ -5,6 +5,8 @@
 
 ## A [Discordia](https://github.com/SinisterRectus/Discordia) bot
 
+**Test the bot in this discord server [here](https://discord.gg/xM2pg6nK8n)**
+
 **pancakeJunior is still under development**
 
 </div>
@@ -14,7 +16,7 @@
 ## How to run from source
 
 **YOU NEED LINUX TO RUN THIS BOT IF YOU ARE ON WINDOWS USE WSL IF YOU ARE ON MACOS USE A VM**
-Or you could just compile LuaSQLite3 for your OS and rename the libraries
+Or you could just compile LuaSQLite3 for your OS.
 
 1. Download [Luvit](https://luvit.io/install.html)
 If you need help downloading Luvit on Linux follow this [guide](https://gist.github.com/Bilal2453/1783fb0f979eead8ed3a079c1f9c64d4)

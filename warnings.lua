@@ -44,7 +44,7 @@ if not isHealthy then
     logger.error("Database integrity check failed:", checkResult)
     db:close()
     backupCorruptedFile()
-    db = sqlite3.open(DB_FILE) -- creates a fresh, empty one so the bot can continue running
+    db = sqlite3.open(DB_FILE) -- creates a fresh empty one so the bot can continue running
     logger.warn("Created a fresh warnings.db — old data preserved in the backup file")
 else
     logger.info("Database integrity check passed")

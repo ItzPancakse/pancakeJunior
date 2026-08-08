@@ -18,11 +18,13 @@ math.randomseed(os.time())
 return {
     name = "comeback",
     triggers = {
-        "fuck you",
-        "f you",
-        "fk you",
-        "screw you",
+        "fuck you pancakejr",
+        "f you pancakejr",
+        "fk you pancakejr",
+        "screw you pancakejr",
         "shut up bot",
+        "fuck you pjr",
+        "stfu pancakejr",
     },
     execute = function(message, args)
         message:reply(comebacks[math.random(#comebacks)])

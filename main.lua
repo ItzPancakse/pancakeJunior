@@ -28,7 +28,7 @@ local timer = require("timer")
 local warnings = require("./warnings")
 local logger = require("./logger")
 local afk = require("./afk")
-
+local ratelimit = require("./ratelimit")
 local CLIENT = discordia.Client()
 local PREFIX = env.PREFIX
 
@@ -96,6 +96,14 @@ CLIENT:on("messageCreate", function(message)
         local who = message.author.username .. " (" .. message.author.id .. ")"
         local where = message.guild and (message.guild.name .. " #" .. message.channel.name) or "DM"
 
+        local onCooldown, remaining = ratelimit.isOnCooldown(message.author.id, commandName)
+        if onCooldown then
+            message.channel:send("Bro chill down! You can use this command again in " .. math.ceil(remaining) .. " seconds.")
+            return
+        end
+
+        ratelimit.setUsed(message.author.id, commandName)
+
         local ok, err = pcall(commands[commandName].execute, message, args, commands, CLIENT)
 
         if ok then
@@ -114,6 +122,15 @@ CLIENT:on("messageCreate", function(message)
             if cmd.triggers then
                 for _, pattern in ipairs(cmd.triggers) do
                     if content:match(pattern) then
+                        -- enforce rate limit for trigger-based commands as well
+                        if cmd.name then
+                            local onCooldown = false
+                            local ok, remaining = ratelimit.isOnCooldown(message.author.id, cmd.name)
+                            if ok then
+                                return
+                            end
+                            ratelimit.setUsed(message.author.id, cmd.name)
+                        end
                         pcall(cmd.execute, message, {})
                         return
                     end

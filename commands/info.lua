@@ -15,7 +15,8 @@ return {
             "Bot Version: `" .. version.version .. "`",
             "Discordia version: `" .. discordia.package.version .. "`",
             "Lua version: `" .. _VERSION .. "`",
-            "Luvi version: `" .. luvi.version .. "`"
+            "Luvi version: `" .. luvi.version .. "`",
+            "pancakeJr is open source! Check it out: <https://github.com/ItzPancakse/pancakeJunior>"
         }
         message.channel:send(table.concat(lines, "\n"))
     end

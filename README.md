@@ -13,6 +13,35 @@
 
 ### THIS BOT IS NOT MEANT TO BE RUN IN MULTIPLE SERVERS AND WAS CREATED FOR MY OWN NEEDS IN MY DISCORD SERVER!
 
+## Commands Included
+- 8ball
+- AFK
+- Ban
+- Breaking News
+- Clear Warnings
+- Comeback
+- Confessions
+- Diagnosis
+- Dont ask to ask
+- Excuse
+- Help
+- Info
+- Kick
+- Meow
+- Ping
+- Ratio
+- Remove Warning
+- Roast
+- Shutdown
+- SUFFERING
+- Timeout (Mute)
+- Try it and see
+- Unban
+- Untimeout (Unmute)
+- Update (shows a nice pic)
+- Warn
+- Warn List
+
 ## How to run from source
 
 **YOU NEED LINUX TO RUN THIS BOT IF YOU ARE ON WINDOWS USE WSL IF YOU ARE ON MACOS USE A VM**

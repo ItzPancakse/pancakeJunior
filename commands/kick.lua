@@ -2,6 +2,7 @@
 -- kicks a user
 
 local permissions = require("../permissions")
+local notify = require("../notify")
 
 return {
     name = "kick",
@@ -29,10 +30,14 @@ return {
         if reason == "" then reason = "No reason given" end
 
         local username = target.username -- grab this before kicking, since target becomes unreachable after
+        local dmSent = notify.dm(target, "kick", reason, {guildName = message.guild.name})
 
         local ok, err = member:kick(reason)
         if ok then
             message.channel:send(username .. " has been kicked. Reason: " .. reason)
+            if not dmSent then
+                message.channel:send("(couldn't DM them — they may have DMs disabled)")
+            end
         else
             message.channel:send("Failed to kick: " .. tostring(err))
         end

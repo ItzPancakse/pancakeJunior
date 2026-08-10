@@ -2,6 +2,7 @@
 -- timeout a user 
 
 local permissions = require("../permissions")
+local notify = require("../notify")
 
 return {
     name = "timeout",
@@ -42,6 +43,7 @@ return {
 
         local ok, err = member:timeoutFor(minutes * 60) -- expects seconds
         if ok then
+            notify.dm(target, "timeout", reason, {guildName = message.guild.name, duration = minutes})
             message.channel:send(target.username .. " has been timed out for " .. minutes .. " minute(s). Reason: " .. reason)
         else
             message.channel:send("Failed to timeout: " .. tostring(err))

@@ -3,6 +3,7 @@
 
 local permissions = require("../permissions")
 local env = require("../env")
+local notify = require("../notify")
 
 return {
     name = "ban",

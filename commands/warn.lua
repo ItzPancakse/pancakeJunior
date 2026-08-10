@@ -4,6 +4,7 @@
 local warnings = require("../warnings")
 local permissions = require("../permissions")
 local punishments = require("../punishments")
+local notify = require("../notify")
 
 return {
     name = "warn",
@@ -26,6 +27,13 @@ return {
 
         warnings.addWarning(message.guild.id, target.id, reason, message.author.id)
         message.channel:send(target.username .. " has been warned: " .. reason)
+
+        local dmSent = notify.dm(target, "warning", reason, {guildName = message.guild.name})
+        local response = target.username .. " has been warned. Reason: " .. reason
+        if not dmSent then
+            response = response .. " (couldn't DM them — they may have DMs disabled) "
+        end
+        message.channel:send(response)
 
         local member = message.guild:getMember(target.id)
         if member then

@@ -13,6 +13,10 @@
 
 ### THIS BOT IS NOT MEANT TO BE RUN IN MULTIPLE SERVERS AND WAS CREATED FOR MY OWN NEEDS IN MY DISCORD SERVER!
 
+**This bot does not use slash commands!**
+
+**Due to me having problems with a Discordia extension called Discordia-Slash I was not able to add slash commands!**
+
 ## Commands Included
 - 8ball
 - AFK
